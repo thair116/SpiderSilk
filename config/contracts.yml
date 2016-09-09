@@ -1,2 +1,7 @@
 development:
+  Magazine:
+    args:
+      - 100
+  Queue:
+    args:
 staging:
