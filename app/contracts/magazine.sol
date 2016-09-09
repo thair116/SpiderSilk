@@ -1,23 +1,23 @@
 contract Magazine {
-	uint public storedData;
-	address public owner;
-	address public editor;
-	address public publisher;
+    uint public storedData;
+    address public owner;
+    address public editor;
+    address public publisher;
 
-	modifier onlyOwner {
-		if (msg.sender != owner) throw;
-	}
+    modifier onlyOwner {
+        if (msg.sender != owner) throw;
+    }
 
-	function Magazine (uint initialValue) {
-		owner = msg.sender;
-		storedData = initialValue;
-	}
+    function Magazine (uint initialValue) {
+        owner = msg.sender;
+        storedData = initialValue;
+    }
 
-	function setEditor(address newEditor) {
-		editor = newEditor;
-	}
+    function setEditor(address newEditor) {
+        editor = newEditor;
+    }
 
-	function setPublisher(address newPublisher) {
-		publisher = newPublisher;
-	}
+    function setPublisher(address newPublisher) {
+        publisher = newPublisher;
+    }
 }
