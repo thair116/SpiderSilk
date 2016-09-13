@@ -6,11 +6,18 @@ contract Queue {
         owner = msg.sender;
     }
 
-    function addEntity(uint newEntity) {
-        entities.push(newEntity);
+    function addEntity(uint newIPFShash) {
+        entities.push(newIPFShash);
     }
 
     function latestEntity() constant returns (uint) {
         return entities[entities.length - 1];
+    }
+
+    function deleteLatestEntity() returns (uint) {
+        uint newIPFShash = latestEntity();
+        delete entities[entities.length - 1];
+        entities.length--;
+        return newIPFShash;
     }
 }

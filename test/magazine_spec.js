@@ -21,6 +21,8 @@ describe("Magazine", function() {
 
   it("should only let owner modify editor");
   it("should only let owner modify publisher");
+  it("should only let owner modify queue");
+  it("should only let owner modify owner");
 
   it("should set initial value", function(done) {
     Magazine.storedData(function(err, result) {
@@ -46,6 +48,28 @@ describe("Magazine", function() {
       });
     });
   });
+
+  it("should add to Queue", function(done) {
+    Magazine.addEntity(3, function() {
+      Magazine.latestEntity(function(err, result) {
+        assert.equal(result, 3);
+        done();
+      });
+    });
+  });
+
+  it("should delete from queue", function(done) {
+    Magazine.addEntity(1, function() {
+      Magazine.addEntity(2, function() {
+        Magazine.deleteLatestEntity(function () {
+          Magazine.latestEntity(function(err, result) {
+            assert.equal(result, 1);
+            done();
+          });
+        });
+      })
+    });
+  });
 })
 
 describe("Queue", function() {
@@ -68,6 +92,40 @@ describe("Queue", function() {
     Queue.addEntity(1, function() {
       Queue.addEntity(2, function() {
         Queue.latestEntity(function(err, result) {
+          assert.equal(result, 2);
+          done();
+        });
+      })
+    });
+  });
+
+  it("should delete from queue", function(done) {
+    Queue.addEntity(1, function() {
+      Queue.addEntity(2, function() {
+        Queue.deleteLatestEntity(function () {
+          Queue.latestEntity(function(err, result) {
+            assert.equal(result, 1);
+            done();
+          });
+        });
+      })
+    });
+  });
+})
+
+describe("Publisher", function() {
+  before(function(done) {
+    EmbarkSpec.sim.createAccounts(10, function() {
+      EmbarkSpec.sim.setBalance(web3.eth.accounts[0], 1000000000000000000000, function() {
+        EmbarkSpec.deployAll(done);
+      });
+    });
+  });
+
+  it("should add to publisher", function(done) {
+    Publisher.publish(1, function() {
+      Publisher.publish(2, function() {
+        Publisher.getIndex(1, function(err, result) {
           assert.equal(result, 2);
           done();
         });
